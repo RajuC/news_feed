@@ -44,11 +44,17 @@ config :news_feed, NewsFeed.Repo,
 # config :news_feed, :httpoison,     HTTPoison
 # config :news_feed, :post_url,      'http://localhost:8080/post_file_content'
 # config :news_feed, :access_token,  'access_token'
-config :news_feed, :news_api_key,  '5ada76900905435791c07c1d9262e181'
-config :news_feed, :news_api_url,  'https://newsapi.org/v1/articles'
+config :news_feed, :news_api_key,  "5ada76900905435791c07c1d9262e181"
+config :news_feed, :news_api_url,  "https://newsapi.org/v1/articles"
 
 
 ## cron job for every fifteen minutes
+
+# config :quantum, news_feed: [
+#   crons: ["* * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed}]
+# ]
+
 config :quantum, cron: [
   "* * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed}
 ]
+
