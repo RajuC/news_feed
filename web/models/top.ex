@@ -1,5 +1,6 @@
 defmodule NewsFeed.Top do
   use NewsFeed.Web, :model
+  alias NewsFeed.{NfParser}
 
   schema "top_articles" do
     field :author,        :string
@@ -9,13 +10,14 @@ defmodule NewsFeed.Top do
     field :url,           :string
     field :url_to_image,  :string
     field :source,        :string
-    # field :created_at,    :datetime, default: Ecto.DateTime.local
-    # field :updated_at,    :datetime, default: Ecto.DateTime.local
-    timestamps()
+    field :article_type,  :string
+    field :inserted_at,   :string, default: NfParser.now()
+    field :updated_at,    :string, default: NfParser.now()
+    # timestamps
   end
 
 
-  @required_fields ~w(author description published_at title url url_to_image source)
+  @required_fields ~w(author description published_at title url url_to_image source article_type)
   @optional_fields ~w()
 
 
@@ -28,4 +30,5 @@ defmodule NewsFeed.Top do
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:title)
   end
+
 end
