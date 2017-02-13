@@ -19,7 +19,7 @@ defmodule NewsFeed.Mixfile do
   def application do
     [mod: {NewsFeed, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mongodb_ecto, :httpoison, :quinn, :quantum]]
+                    :phoenix_ecto, :mongodb_ecto, :httpoison, :quinn, :quantum, :credo]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,6 +36,7 @@ defmodule NewsFeed.Mixfile do
      {:mongodb_ecto, github: "michalmuskala/mongodb_ecto"},
      {:phoenix_html, "~> 2.1.0", override: true},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:credo, "~> 0.5", only: [:dev, :test]},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:exvcr,          "~> 0.8.2", only: :test},    ## used for test cases of http

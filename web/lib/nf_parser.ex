@@ -26,7 +26,7 @@ defmodule NewsFeed.NfParser do
     Enum.each(sources, fn(source) ->
       source |> frame_source_keys
              |> NfStore.store_source
-    end)  
+    end)
   end
 
 
@@ -57,7 +57,6 @@ defmodule NewsFeed.NfParser do
       }
     source |> Map.merge(modified_source_map)
            |> Map.drop(["id", "urlsToLogos", "sortBysAvailable"])
-    
   end
 
   # defp get_unique_id() do
@@ -73,19 +72,19 @@ defmodule NewsFeed.NfParser do
 
   defp validate_author(%{"author" => author} = article) when (author == "") or (author == nil) do
     article |> Map.merge(%{"author" => "anonymous"})
-  end 
+  end
   defp validate_author(article), do: article
 
 
   defp validate_published_at(%{"published_at" => pub_at} = article) when (pub_at == "") or (pub_at == nil) do
     article |> Map.merge(%{"published_at" => "not available"})
-  end 
+  end
   defp validate_published_at(article), do: article
 
 
   defp validate_description(%{"description" => des} = article) when (des == "") or (des == nil) do
     article |> Map.merge(%{"description" => "not available"})
-  end 
+  end
   defp validate_description(article), do: article
 
 end

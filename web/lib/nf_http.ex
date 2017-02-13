@@ -1,5 +1,5 @@
 defmodule NewsFeed.NfHttp do
-	
+
   @news_api_key         Application.get_env(:news_feed, :news_api_key)
   @news_api_url         Application.get_env(:news_feed, :news_api_url)
   @news_source_api_url  Application.get_env(:news_feed, :news_source_api_url)
