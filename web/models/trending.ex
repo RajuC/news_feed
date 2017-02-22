@@ -1,24 +1,18 @@
-defmodule NewsFeed.Latest do
+defmodule NewsFeed.Trending do
   use NewsFeed.Web, :model
   alias NewsFeed.{NfParser}
 
-  schema "latest_articles" do  
-    field :author,        :string
+  schema "trending_articles" do  
     field :post_id,       :string
-    field :description,   :string 
-    field :published_at,  :string
-    field :title,         :string   
-    field :url,           :string
-    field :url_to_image,  :string
-    field :source_id,     :string
     field :article_type,  :string
+    field :source_id,     :string
+    field :views,         :integer
     field :inserted_at,   :string, default: NfParser.now()
     field :updated_at,    :string, default: NfParser.now()
-    # timestamps
   end
 
 
-  @required_fields ~w(post_id author description published_at title url url_to_image source_id article_type)
+  @required_fields ~w(post_id article_type source_id views)
   @optional_fields ~w()
 
 
@@ -29,7 +23,6 @@ defmodule NewsFeed.Latest do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @required_fields, @optional_fields)
-    |> unique_constraint(:title)
     |> unique_constraint(:post_id)
   end
 

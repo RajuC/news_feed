@@ -8,7 +8,7 @@ defmodule NewsFeed.NfParser do
   def frame_articles_and_store(articles_map) do
     Enum.each(articles_map["articles"], fn(article) ->
       new_map    =
-        %{"source"       => articles_map["source"],
+        %{"source_id"       => articles_map["source"],
           "article_type" => articles_map["sortBy"]
           }
       article |> frame_article_keys
@@ -17,8 +17,6 @@ defmodule NewsFeed.NfParser do
               |> NfStore.store_article
     end)  
   end
-
-
 
 
 
@@ -41,9 +39,11 @@ defmodule NewsFeed.NfParser do
   end
 
   defp frame_article_keys(article) do
+    post_id = get_unique_id()
     modfied_article_map = 
       %{"published_at"  => article["publishedAt"],
-        "url_to_image"  => article["urlToImage"]}
+        "url_to_image"  => article["urlToImage"],
+        "post_id"       => post_id}
     article |> Map.merge(modfied_article_map)
             |> Map.drop(["publishedAt", "urlToImage"])
   end
@@ -59,16 +59,16 @@ defmodule NewsFeed.NfParser do
            |> Map.drop(["id", "urlsToLogos", "sortBysAvailable"])
   end
 
-  # defp get_unique_id() do
-  #   date = Date.utc_today |> Date.to_string |> String.replace("-", "")
-  #   date <> rand_num(12, "")
-  # end
+  defp get_unique_id() do
+    date = Date.utc_today |> Date.to_string |> String.replace("-", "")
+    date <> rand_num(12, "")
+  end
 
-  # defp rand_num(0, num_str), do: num_str
-  # defp rand_num(len, num_str) do
-  #   rand_number = 10 |> :rand.uniform |> Integer.to_string
-  #   rand_num(len - 1, num_str <> rand_number)
-  # end
+  defp rand_num(0, num_str), do: num_str
+  defp rand_num(len, num_str) do
+    rand_number = 10 |> :rand.uniform |> Integer.to_string
+    rand_num(len - 1, num_str <> rand_number)
+  end
 
   defp validate_author(%{"author" => author} = article) when (author == "") or (author == nil) do
     article |> Map.merge(%{"author" => "anonymous"})

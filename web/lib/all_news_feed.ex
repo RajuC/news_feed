@@ -28,6 +28,6 @@ defmodule NewsFeed.AllNewsFeed do
   end
 
 
-
+##     Task.async(fn -> __MODULE__.fetch_news_sources() end)  ## temp function
 
 end

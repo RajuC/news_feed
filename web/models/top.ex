@@ -4,12 +4,13 @@ defmodule NewsFeed.Top do
 
   schema "top_articles" do
     field :author,        :string
-    field :description,   :string 
+    field :post_id,       :string
+    field :description,   :string
     field :published_at,  :string
-    field :title,         :string   
+    field :title,         :string
     field :url,           :string
     field :url_to_image,  :string
-    field :source,        :string
+    field :source_id,     :string
     field :article_type,  :string
     field :inserted_at,   :string, default: NfParser.now()
     field :updated_at,    :string, default: NfParser.now()
@@ -17,7 +18,7 @@ defmodule NewsFeed.Top do
   end
 
 
-  @required_fields ~w(author description published_at title url url_to_image source article_type)
+  @required_fields ~w(post_id author description published_at title url url_to_image source_id article_type)
   @optional_fields ~w()
 
 
@@ -29,6 +30,7 @@ defmodule NewsFeed.Top do
     struct
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:title)
+    |> unique_constraint(:post_id)
   end
 
 end

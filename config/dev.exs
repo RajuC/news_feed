@@ -55,7 +55,7 @@ config :news_feed, :news_source_api_url,  "https://newsapi.org/v1/sources"
 # ]
 
 config :quantum, cron: [
-  "*/5 * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed},
+  "* * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed},
   "@weekly":   {"NewsFeed.AllNewsFeed", :fetch_news_sources}
 ]
 
