@@ -6,13 +6,14 @@ defmodule NewsFeed.Contact do
     field :email,       :string
     field :name,        :string
     field :message,     :string
+    field :title,       :string
     field :have_replied,:string, default: "no"
     field :inserted_at, :string, default: NfParser.now()
     field :updated_at,  :string, default: NfParser.now()
   end
 
 
-  @required_fields ~w(email name message have_replied)
+  @required_fields ~w(email name message title have_replied)
   @optional_fields ~w()
 
 
