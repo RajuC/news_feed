@@ -13,4 +13,9 @@ defmodule NewsFeed.PostController do
     render(conn, "index.json", posts: posts) 
   end
 
+  def all_posts(conn, _params) do
+    posts = NfRepo.get_all_posts
+    render(conn, "index.json", posts: posts) 
+  end
+
 end
