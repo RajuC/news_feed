@@ -5,7 +5,7 @@ defmodule NewsFeed.Repo.Migrations.CreateTrendingPosts do
   	create table(:trending_articles, primary_key: false) do
       add :id,            	:uuid,    primary_key: true    
       add :post_id,     	  :string
-      add :article_type,    :string
+      add :post_type,       :string
       add :views,           :integer
       add :source_id,   	  :string
       add :inserted_at,     :string

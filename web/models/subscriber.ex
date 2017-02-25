@@ -3,14 +3,15 @@ defmodule NewsFeed.Subscriber do
   alias NewsFeed.{NfParser}
 
   schema "subscribers" do  
-    field :email,       :string
-    field :is_verified, :string
-    field :inserted_at, :string, default: NfParser.now()
-    field :updated_at,  :string, default: NfParser.now()
+    field :email,         :string
+    field :is_verified,   :string
+    field :subscriptions, {:array, :string}, default: ["trending"]
+    field :inserted_at,   :string, default: NfParser.now()
+    field :updated_at,    :string, default: NfParser.now()
   end
 
 
-  @required_fields ~w(email is_verified)
+  @required_fields ~w(email subscriptions is_verified)
   @optional_fields ~w()
 
 

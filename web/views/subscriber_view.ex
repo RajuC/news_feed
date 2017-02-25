@@ -12,4 +12,5 @@ defmodule NewsFeed.SubscriberView do
     %{id:      subscriber.id,
       email:   subscriber.email}
   end
+  
 end

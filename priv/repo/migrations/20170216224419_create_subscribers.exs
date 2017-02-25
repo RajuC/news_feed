@@ -6,6 +6,7 @@ defmodule NewsFeed.Repo.Migrations.CreateSubscribers do
       add :id,            	:uuid,    primary_key: true    
       add :email,     	    :string
       add :is_verified,     :string
+      add :subscriptions,   {:array, :string}
       add :inserted_at,   	:string
       add :updated_at,    	:string
     end

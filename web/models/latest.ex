@@ -7,18 +7,19 @@ defmodule NewsFeed.Latest do
     field :post_id,       :string
     field :description,   :string 
     field :published_at,  :string
-    field :title,         :string   
-    field :url,           :string
+    field :title,         :string
+    field :post_url,      :string
+    field :original_url,  :string
     field :url_to_image,  :string
     field :source_id,     :string
-    field :article_type,  :string
+    field :post_type,     :string
     field :inserted_at,   :string, default: NfParser.now()
     field :updated_at,    :string, default: NfParser.now()
     # timestamps
   end
 
 
-  @required_fields ~w(post_id author description published_at title url url_to_image source_id article_type)
+  @required_fields ~w(post_id author description published_at title original_url post_url url_to_image source_id post_type)
   @optional_fields ~w()
 
 

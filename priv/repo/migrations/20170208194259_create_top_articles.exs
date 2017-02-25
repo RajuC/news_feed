@@ -9,9 +9,10 @@ defmodule NewsFeed.Repo.Migrations.CreateTopArticles do
       add :description,   :string
       add :published_at,  :string
       add :title,         :string
-      add :url,           :string
+      add :post_url,      :string
+      add :original_url,  :string
       add :url_to_image,  :string
-      add :article_type,  :string
+      add :post_type,     :string
       add :source_id,     :string
       add :inserted_at,   :string
       add :updated_at,    :string
