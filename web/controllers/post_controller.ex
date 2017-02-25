@@ -37,11 +37,11 @@ defmodule NewsFeed.PostController do
   end   
 
   def create_trending(conn, %{"post_id" => post_id} = params) do
-    post = Trending |> Repo.get_by(post_id: post_id)
-    case post do
+    trending_post = Trending |> Repo.get_by(post_id: post_id)
+    post = post_id |> NfRepo.get_trending_post
+    case trending_post do
       nil           ->
-        updated_post = post_id
-                        |> NfRepo.get_trending_post
+        updated_post = post
                         |> Map.merge(%{views: 0})
                         |> NfParser.frame_trending_post(params)
         %Trending{} |> Trending.changeset(updated_post) |> NfStore.store_to_repo
