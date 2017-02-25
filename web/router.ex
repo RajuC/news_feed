@@ -16,14 +16,14 @@ defmodule NewsFeed.Router do
   scope "/", NewsFeed do
     pipe_through :api # Use the default browser stack
     post    "/subscribe",               SubscriberController,  :create
-    post    "/contact",                 ContactController,     :create
-    get     "/trending",                TrendingController,    :index   
-    get     "/trending/:post_id",       TrendingController,    :store_and_redirect   ## trending posts
-    get     "/posts",                   PostController,        :all_posts
-    get     "/posts/top",               TopController,         :index
-    get     "/posts/latest",            LatestController,      :index
-    get     "/posts/country/:country",  PostController,        :get_country_news
-    get     "/category/:news_type",     CategoryNewsController,:get_category_news  
+    post    "/contact",                 ContactController,     :create  
+    get     "/trending/:post_id",       PostController,        :create_trending   ## trending posts 
+    get     "/posts",                   PostController,        :all_news
+    get     "/posts/top",               PostController,        :top_news
+    get     "/posts/latest",            PostController,        :latest_news
+    get     "/posts/trending",          PostController,        :trending_news       
+    get     "/posts/country/:country",  PostController,        :country_news
+    get     "/posts/category/:type",    PostController,        :category_news  
     get     "/",                        PageController,        :index
   end
 

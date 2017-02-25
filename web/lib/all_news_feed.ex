@@ -3,11 +3,9 @@ defmodule NewsFeed.AllNewsFeed do
   require Logger
   alias NewsFeed.{NfHttp, NfParser, NfRepo}
 
-
-
   def fetch_news_feed do
     Logger.info "#{__MODULE__}||Fetch news_feed started..."
-    :source_types
+    :language
       |>  NfRepo.get_sources("en")
       |>  Enum.each(fn(%{source_id: source, source_types: sort_by_list}) ->
             Logger.info "#{__MODULE__}||source : #{source} || type : #{sort_by_list}"

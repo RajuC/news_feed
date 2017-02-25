@@ -3,7 +3,7 @@ defmodule NewsFeed.NfRepo do
 
   # import Ecto.Query, only: [from: 1, from: 2]
   import Ecto.Query
-  alias NewsFeed.{Top, Latest, Trending, Source, Repo, TopView, LatestView, TrendingView}
+  alias NewsFeed.{Top, Latest, Trending, Source, Repo, PostView}
 
 
   def get_post(post_id) do
@@ -16,11 +16,22 @@ defmodule NewsFeed.NfRepo do
   end
 
   def get_top_post(post_id) do
-    Repo.get_by(Top, post_id: post_id)
+    Top |> Repo.get_by(post_id: post_id)
   end
 
   def get_latest_post(post_id) do
-    Repo.get_by(Latest, post_id: post_id)
+    Latest |> Repo.get_by(post_id: post_id)
+  end
+
+  def get_trending_post(post_id) do
+    post_id |> get_post |> Map.merge(%{post_type: "trending"})
+  end
+
+  def  get_sources(:language, lang) do
+    Source 
+      |> where([u], u.language == ^lang)
+      |> select([u], %{source_id: u.source_id, source_types: u.source_types})
+      |> Repo.all
   end
 
   def  get_sources(:country, country) do
@@ -30,17 +41,17 @@ defmodule NewsFeed.NfRepo do
       |> Repo.all
   end
 
-  def  get_sources(:source_types, lang) do
+  def get_sources(:category, category) do
     Source 
-      |> where([u], u.language == ^lang)
-      |> select([u], %{source_id: u.source_id, source_types: u.source_types})
+      |> where([u], u.category == ^category)
+      |> select([u], u.source_id)
       |> Repo.all
   end
 
   def get_all_posts() do
-    top_posts       = Task.async(fn() -> top_posts end)
-    latest_posts    = Task.async(fn() -> latest_posts end)
-    trending_posts  = Task.async(fn() -> trending_posts end)
+    top_posts       = Task.async(fn() -> top_posts() end)
+    latest_posts    = Task.async(fn() -> latest_posts() end)
+    trending_posts  = Task.async(fn() -> trending_posts() end)
     [top_posts, latest_posts, trending_posts] |> Enum.map(&await/1) |> List.flatten
   end
 
@@ -49,7 +60,7 @@ defmodule NewsFeed.NfRepo do
       |> order_by([u], desc: u.views)
       |> select([u], u.post_id)
       |> Repo.all
-      |> Enum.map(&Task.async(fn() -> get_post(&1) end))
+      |> Enum.map(&Task.async(fn() -> get_trending_post(&1) end))
       |> Enum.map(&await/1)
   end
 
@@ -67,30 +78,22 @@ defmodule NewsFeed.NfRepo do
 
 # Task.async(fn() -> :entity |> CsharpRepo.get(author_id) end) |> &await/1
 
-  def get_all_posts_by_source(source_id) do
+  def get_posts_by_source_id(source_id) do
     top_posts       = Task.async(fn() -> source_id |> top_posts_by_source end)
     latest_posts    = Task.async(fn() -> source_id |> latest_posts_by_source end)
     trending_posts  = Task.async(fn() -> source_id |> trending_posts_by_source end)
     [top_posts, latest_posts, trending_posts] |> Enum.map(&await/1) |> List.flatten
   end
 
-
-### TODO : refactor the below code to one function
-
-# Top |> order_by([u], desc: u.published_at) |> where([u], u.source_id == "the-hindu") |> Repo.all
-#     posts |> Enum.map(&Task.async(fn() ->  end))
-#             |> Enum.map(&await/1)  
-
-
   defp top_posts_by_source(source_id) do
     posts = source_id |> get_posts_by_source(Top)
-    %{data: top_posts} = TopView.render("index.json", %{tops: posts}) 
+    %{data: top_posts} = PostView.render("index.json", %{posts: posts}) 
     top_posts
   end
 
   defp latest_posts_by_source(source_id) do
     posts = source_id |> get_posts_by_source(Latest)
-    %{data: latest_posts} = LatestView.render("index.json", %{latests: posts})
+    %{data: latest_posts} = PostView.render("index.json", %{posts: posts})
     latest_posts
   end
 
@@ -101,9 +104,9 @@ defmodule NewsFeed.NfRepo do
         |> where([u], u.source_id == ^source_id)
         |> select([u], u.post_id)
         |> Repo.all
-        |> Enum.map(&Task.async(fn() -> get_post(&1) end))
+        |> Enum.map(&Task.async(fn() -> get_trending_post(&1) end))
         |> Enum.map(&await/1)
-      %{data: trending_posts} = TrendingView.render("index.json", %{trendings: posts})
+    %{data: trending_posts} = PostView.render("index.json", %{posts: posts})
       trending_posts
   end
 
