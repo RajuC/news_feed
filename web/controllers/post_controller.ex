@@ -5,7 +5,7 @@ defmodule NewsFeed.PostController do
   alias NewsFeed.{Trending, Repo, NfStore, NfParser, NfRepo}
 
   def all_news(conn, _params) do
-    posts = NfRepo.get_all_posts
+    posts = NfRepo.get_all_posts 
     render(conn, "index.json", posts: posts) 
   end
 
@@ -50,7 +50,11 @@ defmodule NewsFeed.PostController do
                         |> NfParser.frame_trending_post(params)
         trending_post |> Trending.changeset(updated_post) |> NfStore.update_to_repo
     end
-    redirect(conn, external: post.original_url)
+    orig_url = post.original_url 
+                |> String.replace("\n", "")
+                |> String.replace("\t","")
+                |> String.replace(" ","")
+    redirect(conn, external: orig_url)
   end
 
 
