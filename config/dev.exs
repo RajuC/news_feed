@@ -59,3 +59,7 @@ config :quantum, cron: [
   "@weekly":   {"NewsFeed.AllNewsFeed", :fetch_news_sources}
 ]
 
+
+config :sparkpost, api_key: "sdfdgdfgdfgdf"
+
+config :news_feed, :domain, "raju.dfgdf@dfgdfdfgdf.com"

@@ -19,7 +19,7 @@ defmodule NewsFeed.Mixfile do
   def application do
     [mod: {NewsFeed, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :mongodb_ecto, :httpoison, :quinn, :quantum, :credo]]
+                    :phoenix_ecto, :mongodb_ecto, :httpoison, :quinn, :quantum, :credo, :sparkpost]]
   end
 
   # Specifies which paths to compile per environment.
@@ -44,7 +44,10 @@ defmodule NewsFeed.Mixfile do
      {:exrm,                "~> 1.0.8"},                    ## for releases
      {:quinn, git:          "git@github.com:nhu313/Quinn"}, ## xml parser
      {:quantum,             ">= 1.8.1"               },     ##  cron like job scheduler
-     {:credo,               "~> 0.5", only: [:local, :dev, :test]}    ## for code style checker
+     {:ibrowse, github:     "cmullaparthi/ibrowse", tag: "v4.1.2", override: true},
+     {:sparkpost,           "~> 0.3.0"},
+     {:credo,               "~> 0.5", only: [:local, :dev, :test]},    ## for code style checker
+     {:poison, "~> 3.0", override: true}
    ]
   end
 

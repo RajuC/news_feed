@@ -5,7 +5,14 @@ defmodule NewsFeed.NfRepo do
   import Ecto.Query
   @count 30
   @source_id_count 15
-  alias NewsFeed.{Top, Latest, Trending, Source, Repo, PostView}
+  alias NewsFeed.{Top, Latest, Trending, Source, Repo, PostView, Subscriber}
+
+
+  def get_subscribers() do
+    Subscriber
+      |> select([u], u.email)
+      |> Repo.all
+  end
 
 
   def get_post(post_id) do
@@ -98,6 +105,10 @@ defmodule NewsFeed.NfRepo do
       |> List.flatten
       |> Enum.shuffle
   end
+
+
+#### PRIVATE FUNCTIONS
+
 
   defp top_posts_by_source_id(source_id) do
     posts = source_id |> posts_by_source_id(Top)

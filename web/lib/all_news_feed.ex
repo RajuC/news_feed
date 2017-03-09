@@ -1,9 +1,9 @@
 defmodule NewsFeed.AllNewsFeed do
 
   require Logger
-  alias NewsFeed.{NfHttp, NfParser, NfRepo}
+  alias NewsFeed.{NfHttp, NfParser, NfRepo, NfSubscriptions}
 
-  def fetch_news_feed do
+  def fetch_news_feed() do
     Logger.info "#{__MODULE__}||Fetch news_feed started..."
     :language
       |>  NfRepo.get_sources("en")
@@ -19,13 +19,21 @@ defmodule NewsFeed.AllNewsFeed do
   end
 
 
-  def fetch_news_sources do
+  def fetch_news_sources() do
     Logger.info "#{__MODULE__}||Fetch_news_sources started..."
     NfHttp.http_sources |> NfParser.frame_sources_and_store
     Logger.info "Done fetching the sources.....!!!"
   end
 
 
+  def send_news_feed() do
+    Logger.info "#{__MODULE__}||Sending news feed to all subscribers..."
+    [post] = NfRepo.trending_posts |>Enum.take(1)
+    resp = NfRepo.get_subscribers |> NfSubscriptions.send_message(post)
+    IO.inspect "========================== resp"
+    IO.inspect resp
+    Logger.info "Done sending the news feed to subscribers.....!!!"
+  end
 ##     Task.async(fn -> __MODULE__.fetch_news_sources() end)  ## temp function
 
 end
