@@ -24,4 +24,11 @@ defmodule NewsFeed.SubscriberController do
           |> send_resp(422, "subscriber already exists")
     end
   end
+
+  def unsubscribe(conn, %{"email" => email}) do
+    Subscriber
+      |> Repo.get_by!(email: email)
+      |> Repo.delete!()
+    send_resp(conn, 200, "unsubscription success")
+  end
 end

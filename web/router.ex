@@ -16,6 +16,7 @@ defmodule NewsFeed.Router do
   scope "/", NewsFeed do
     pipe_through :api # Use the default browser stack
     post    "/subscribe",               SubscriberController,  :create
+    get    "/unsubscribe",              SubscriberController,  :unsubscribe
     post    "/contact",                 ContactController,     :create  
     get     "/trending/:post_id",       PostController,        :create_trending   ## trending posts 
     get     "/posts",                   PostController,        :all_news
@@ -37,7 +38,3 @@ defmodule NewsFeed.Router do
   # end
 end
 
-
-## todos
-#### cron job to send subscriptions to email ids
-#### verify the subscriber

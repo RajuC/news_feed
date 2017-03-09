@@ -1,6 +1,5 @@
 defmodule NewsFeed.PostController do
-	use NewsFeed.Web, :controller
-
+  use NewsFeed.Web, :controller
 
   alias NewsFeed.{Trending, Repo, NfStore, NfParser, NfRepo}
 

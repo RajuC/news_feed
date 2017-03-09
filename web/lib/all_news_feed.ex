@@ -28,10 +28,9 @@ defmodule NewsFeed.AllNewsFeed do
 
   def send_news_feed() do
     Logger.info "#{__MODULE__}||Sending news feed to all subscribers..."
-    [post] = NfRepo.trending_posts |>Enum.take(1)
+    [post] = NfRepo.trending_posts |> Enum.take(1)
     resp = NfRepo.get_subscribers |> NfSubscriptions.send_message(post)
-    IO.inspect "========================== resp"
-    IO.inspect resp
+    Logger.info "#{inspect resp}"
     Logger.info "Done sending the news feed to subscribers.....!!!"
   end
 ##     Task.async(fn -> __MODULE__.fetch_news_sources() end)  ## temp function
