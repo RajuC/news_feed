@@ -3,19 +3,19 @@ defmodule NewsFeed.NfParser do
 
   alias NewsFeed.{NfStore}
 
-# %{"articles" => [], "sortBy" => "top", "source" => "cnn", "status" => "ok"}
+# %{"posts" => [], "sortBy" => "top", "source" => "cnn", "status" => "ok"}
   @post_url "http://localhost:4000/trending/"
 
-  def frame_articles_and_store(articles_map) do
-    Enum.each(articles_map["articles"], fn(article) ->
+  def frame_posts_and_store(posts_map) do
+    Enum.each(posts_map["articles"], fn(post) ->
       new_map    =
-        %{"source_id"       => articles_map["source"],
-          "post_type"       => articles_map["sortBy"]
+        %{"source_id"       => posts_map["source"],
+          "post_type"       => posts_map["sortBy"]
           }
-      article |> frame_article_keys
+      post |> frame_post_keys
               |> Map.merge(new_map)
-              |> validate_article
-              |> NfStore.store_article
+              |> validate_post
+              |> NfStore.store_post
     end)  
   end
 
@@ -37,8 +37,8 @@ defmodule NewsFeed.NfParser do
     post |> Map.merge(trending_post_map)
   end
 
-  def validate_article(article) do
-    article |> validate_author
+  def validate_post(post) do
+    post |> validate_author
             |> validate_published_at
             |> validate_description
   end
@@ -47,16 +47,16 @@ defmodule NewsFeed.NfParser do
     DateTime.utc_now |> DateTime.to_string
   end
 
-  defp frame_article_keys(article) do
+  defp frame_post_keys(post) do
     post_id = get_unique_id()
     post_url = @post_url <> post_id
-    modfied_article_map = 
-      %{"published_at"  => article["publishedAt"],
-        "url_to_image"  => article["urlToImage"],
+    modfied_post_map = 
+      %{"published_at"  => post["publishedAt"],
+        "url_to_image"  => post["urlToImage"],
         "post_url"      => post_url,
-        "original_url"  => article["url"],
+        "original_url"  => post["url"],
         "post_id"       => post_id}
-    article |> Map.merge(modfied_article_map)
+    post |> Map.merge(modfied_post_map)
             |> Map.drop(["publishedAt", "urlToImage"])
   end
 
@@ -82,22 +82,22 @@ defmodule NewsFeed.NfParser do
     rand_num(len - 1, num_str <> rand_number)
   end
 
-  defp validate_author(%{"author" => author} = article) when (author == "") or (author == nil) do
-    article |> Map.merge(%{"author" => " Anonymous"})
+  defp validate_author(%{"author" => author} = post) when (author == "") or (author == nil) do
+    post |> Map.merge(%{"author" => " Anonymous"})
   end
-  defp validate_author(article), do: article
+  defp validate_author(post), do: post
 
 
-  defp validate_published_at(%{"published_at" => pub_at} = article) when (pub_at == "") or (pub_at == nil) do
-    article |> Map.merge(%{"published_at" => " not available"})
+  defp validate_published_at(%{"published_at" => pub_at} = post) when (pub_at == "") or (pub_at == nil) do
+    post |> Map.merge(%{"published_at" => " not available"})
   end
-  defp validate_published_at(article), do: article
+  defp validate_published_at(post), do: post
 
 
-  defp validate_description(%{"description" => des} = article) when (des == "") or (des == nil) do
-    article |> Map.merge(%{"description" => " not available"})
+  defp validate_description(%{"description" => des} = post) when (des == "") or (des == nil) do
+    post |> Map.merge(%{"description" => " not available"})
   end
-  defp validate_description(article), do: article
+  defp validate_description(post), do: post
 
 end
 

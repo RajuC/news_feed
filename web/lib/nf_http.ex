@@ -10,8 +10,8 @@ defmodule NewsFeed.NfHttp do
 
 
 
-  def http_articles(source, sort_by) do
-    source |> articles_query(sort_by) |> get_http
+  def http_posts(source, sort_by) do
+    source |> posts_query(sort_by) |> get_http
   end
 
   def http_sources() do
@@ -27,7 +27,7 @@ defmodule NewsFeed.NfHttp do
 
 
   ### private functions
-  defp articles_query(source, sort_by) do
+  defp posts_query(source, sort_by) do
     @news_api_url <> "?" <> "source=" <> source <> "&sortBy=" <> sort_by <> "&apiKey=" <> @news_api_key
   end
 

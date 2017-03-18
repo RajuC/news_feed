@@ -54,13 +54,9 @@ config :news_feed, :news_source_api_url,  "https://newsapi.org/v1/sources"
 #   crons: ["* * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed}]
 # ]
 
-config :quantum, cron: [
-  "*/15 * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed},
-  "@weekly":   {"NewsFeed.AllNewsFeed", :fetch_news_sources},
-  "@daily":   {"NewsFeed.AllNewsFeed", :send_news_feed}
-]
+# config :quantum, cron: [
+#   "*/15 * * * *": {"NewsFeed.AllNewsFeed", :fetch_news_feed},
+#   "@weekly":   {"NewsFeed.AllNewsFeed", :fetch_news_sources},
+#   "@daily":   {"NewsFeed.AllNewsFeed", :send_news_feed}
+# ]
 
-
-config :sparkpost, api_key: "sdfdgdfgdfgdf"
-
-config :news_feed, :domain, "raju.dfgdf@dfgdfdfgdf.com"

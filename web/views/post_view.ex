@@ -2,6 +2,13 @@
 defmodule NewsFeed.PostView do
   use NewsFeed.Web, :view	
 
+  def render("index.json", %{posts: posts, offset: offset, limit: limit, route: route}) do
+    %{offset:  offset,
+      limit:   limit,
+      posts:   render_many(posts, NewsFeed.PostView, "post.json"),
+      route:   route}
+  end
+
   def render("index.json", %{posts: posts}) do
     %{data: render_many(posts, NewsFeed.PostView, "post.json")}
   end

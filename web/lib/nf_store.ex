@@ -1,17 +1,14 @@
 defmodule NewsFeed.NfStore do
 
-  alias NewsFeed.{Top, Latest, Source, Repo}
+  alias NewsFeed.{Post, Source, Repo}
   require Logger
 
-  def store_article(%{"post_type" => "top"} = article) do
-    %Top{} |> Top.changeset(article) |> store_to_repo
-  end
-  def store_article(%{"post_type" => "latest"} = article) do
-    %Latest{} |> Latest.changeset(article) |> store_to_repo
+  def store_post(post) do
+    %Post{} |> Post.changeset(post) |> store_to_repo()
   end
 
   def store_source(source) do
-    %Source{} |> Source.changeset(source) |> store_to_repo
+    %Source{} |> Source.changeset(source) |> store_to_repo()
   end
 
 

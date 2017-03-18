@@ -1,4 +1,4 @@
-defmodule NewsFeed.Repo.Migrations.CreateSource do
+defmodule NewsFeed.Repo.Migrations.CreateSources do
   use Ecto.Migration
 
   def change do
@@ -6,8 +6,8 @@ defmodule NewsFeed.Repo.Migrations.CreateSource do
       add :id,            	:uuid,    primary_key: true
       add :source_id,     	:string
       add :name,          	:string
-      add :description,   	:string
-      add :url,           	:string
+      add :description,   	:text
+      add :url,           	:text
       add :category,      	:string
       add :language,      	:string
       add :country,       	:string

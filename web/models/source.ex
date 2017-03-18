@@ -19,7 +19,7 @@ defmodule NewsFeed.Source do
 
 
   @required_fields ~w(source_id name description category language url country urls_to_logos source_types)
-  @optional_fields ~w()
+
 
 
 
@@ -28,7 +28,7 @@ defmodule NewsFeed.Source do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields)
     |> unique_constraint(:source_id)
   end
 

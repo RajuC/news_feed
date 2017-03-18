@@ -18,7 +18,7 @@ defmodule NewsFeed.Router do
     post    "/subscribe",               SubscriberController,  :create
     get    "/unsubscribe",              SubscriberController,  :unsubscribe
     post    "/contact",                 ContactController,     :create  
-    get     "/trending/:post_id",       PostController,        :create_trending   ## trending posts 
+    get     "/trending/:post_id",       PostController,        :update_post
     get     "/posts",                   PostController,        :all_news
     get     "/posts/top",               PostController,        :top_news
     get     "/posts/latest",            PostController,        :latest_news
