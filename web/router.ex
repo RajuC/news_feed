@@ -16,7 +16,7 @@ defmodule NewsFeed.Router do
   scope "/", NewsFeed do
     pipe_through :api # Use the default browser stack
     post    "/subscribe",               SubscriberController,  :create
-    get    "/unsubscribe",              SubscriberController,  :unsubscribe
+    get     "/unsubscribe",             SubscriberController,  :unsubscribe
     post    "/contact",                 ContactController,     :create  
     get     "/trending/:post_id",       PostController,        :update_post
     get     "/posts",                   PostController,        :all_news

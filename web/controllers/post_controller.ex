@@ -10,8 +10,6 @@ defmodule NewsFeed.PostController do
   end
 
   def top_news(conn, params) do
-    IO.inspect "========================== params"
-    IO.inspect params
     posts =  :post_type |> NfRepo.get_posts("top")
     conn |> render_post(posts, params, "/posts/top")
   end
@@ -94,19 +92,17 @@ defmodule NewsFeed.PostController do
     render(conn, "index.json", posts: posts,
                                offset: offset,
                                limit: @count,
-                               route: route)
+                               route: route,
+                               page:  div(offset, @count))
   end
-  defp get_offset(%{}), do: 20
-  defp get_offset(%{"offset" => "0", "posts" => "prev"}), do: 20
+
+
+  defp get_offset(%{"offset" => "0"}), do: 20
   defp get_offset(%{"offset" => offset, "posts" => "prev"}) do
-    IO.inspect "========================== prev offset"
-    IO.inspect offset
     (offset |> String.to_integer()) - @count 
   end
   defp get_offset(%{"offset" => offset, "posts" => "next"}) do
     (offset |> String.to_integer()) + @count 
   end
-  defp get_offset(%{"offset" => offset}) do
-    (offset |> String.to_integer()) + @count
-  end
+  defp get_offset(%{}), do: 20
 end

@@ -2,7 +2,7 @@ defmodule NewsFeed.Contact do
   use NewsFeed.Web, :model
   alias NewsFeed.{NfParser}
 
-  schema "subscribers" do  
+  schema "contacts" do
     field :email,       :string
     field :name,        :string
     field :message,     :string
