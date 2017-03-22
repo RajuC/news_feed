@@ -6,9 +6,9 @@ defmodule NewsFeed.Repo.Migrations.CreateContacts do
       add :id,            	:uuid,    primary_key: true    
       add :email,     	    :string
       add :name,     		    :string
-      add :title,           :text
+      add :title,           :string
       add :have_replied,    :string
-      add :message,     	  :text
+      add :message,     	  :string
       add :inserted_at,   	:string
       add :updated_at,    	:string
     end

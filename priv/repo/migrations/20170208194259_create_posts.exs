@@ -6,12 +6,12 @@ defmodule NewsFeed.Repo.Migrations.CreatePosts do
       add :id,            :uuid,   primary_key: true
       add :post_id,       :string
       add :author,        :string
-      add :description,   :text
+      add :description,   :string
       add :published_at,  :string
       add :title,         :string
       add :post_url,      :string
       add :original_url,  :string
-      add :url_to_image,  :text
+      add :url_to_image,  :string
       add :post_type,     :string
       add :source_id,     :string
       add :views,         :integer

@@ -6,8 +6,8 @@ defmodule NewsFeed.Repo.Migrations.CreateSources do
       add :id,            	:uuid,    primary_key: true
       add :source_id,     	:string
       add :name,          	:string
-      add :description,   	:text
-      add :url,           	:text
+      add :description,   	:string
+      add :url,           	:string
       add :category,      	:string
       add :language,      	:string
       add :country,       	:string

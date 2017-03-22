@@ -4,6 +4,12 @@ defmodule NewsFeed.PostController do
   alias NewsFeed.{Post, Repo, NfStore, NfParser, NfRepo}
 
   @count 20
+
+
+  def show(conn, %{"post_id" => post_id} = params) do
+    post = post_id |> NfRepo.get_post()
+    conn |> render("post.json", post: post)
+  end 
   def all_news(conn, params) do
     posts = NfRepo.all_posts()
     conn |> render_post(posts, params, "/posts")
@@ -79,7 +85,7 @@ defmodule NewsFeed.PostController do
     Task.await(task)
   end
   
-  defp posts_by_offset(posts, 0) do
+  defp posts_by_offset(posts, 20) do
    posts |> Enum.take(@count)
   end 
   defp posts_by_offset(posts, offset) do
@@ -89,14 +95,14 @@ defmodule NewsFeed.PostController do
   defp render_post(conn, posts, params, route) do
   offset = params |> get_offset()
   posts  = posts |> posts_by_offset(offset)
-    render(conn, "index.json", posts: posts,
+  render(conn, "index.json", posts: posts,
                                offset: offset,
                                limit: @count,
                                route: route,
                                page:  div(offset, @count))
   end
 
-
+  defp get_offset(%{}), do: 20
   defp get_offset(%{"offset" => "0"}), do: 20
   defp get_offset(%{"offset" => offset, "posts" => "prev"}) do
     (offset |> String.to_integer()) - @count 
@@ -104,5 +110,5 @@ defmodule NewsFeed.PostController do
   defp get_offset(%{"offset" => offset, "posts" => "next"}) do
     (offset |> String.to_integer()) + @count 
   end
-  defp get_offset(%{}), do: 20
+
 end

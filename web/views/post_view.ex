@@ -26,7 +26,10 @@ defmodule NewsFeed.PostView do
       published_at:     post.published_at,
       description:      post.description,
       author:           post.author,
-      post_type:        post.post_type
+      post_type:        post.post_type,
+      likes:            post.likes,
+      dislikes:         post.dislikes,
+      views:            post.views
       }
   end
 end

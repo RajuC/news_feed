@@ -20,6 +20,7 @@ defmodule NewsFeed.Router do
     post    "/contact",                 ContactController,     :create  
     get     "/trending/:post_id",       PostController,        :update_post
     get     "/posts",                   PostController,        :all_news
+    get     "/post/:post_id",           PostController,        :show
     get     "/posts/top",               PostController,        :top_news
     get     "/posts/latest",            PostController,        :latest_news
     get     "/posts/trending",          PostController,        :trending_news       
